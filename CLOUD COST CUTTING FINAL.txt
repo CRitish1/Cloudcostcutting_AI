@@ -1,0 +1,243 @@
+def main():
+    print("Welcome to the Cloud Cost Comparison Tool!")
+    
+    # Links to cloud billing pages
+    aws_link = "https://aws.amazon.com/billing/"
+    gcp_link = "https://console.cloud.google.com/billing/"
+    
+    print("\nPlease visit the following links to access your billing information:")
+    print(f"AWS Billing: {aws_link}")
+    print(f"GCP Billing: {gcp_link}")
+
+    # Input number of instances for AWS and GCP
+    num_aws = int(input("\nHow many AWS instances do you have? "))
+    num_gcp = int(input("How many GCP instances do you have? "))
+
+    aws_instances = []
+    gcp_instances = []
+
+    # Collecting AWS instances data
+    for i in range(num_aws):
+        name = input(f"Enter the name for AWS instance {i+1}: ")
+        cost = float(input(f"Enter the bill amount for AWS instance {name} ($): "))
+        aws_instances.append({'name': name, 'cost': cost})
+
+    # Collecting GCP instances data
+    for i in range(num_gcp):
+        name = input(f"Enter the name for GCP instance {i+1}: ")
+        cost = float(input(f"Enter the bill amount for GCP instance {name} ($): "))
+        gcp_instances.append({'name': name, 'cost': cost})
+
+    # Process AWS instances
+    aws_total = sum(instance['cost'] for instance in aws_instances)
+    aws_useless = [instance['name'] for instance in aws_instances if instance['cost'] == 0]
+    
+    # Process GCP instances
+    gcp_total = sum(instance['cost'] for instance in gcp_instances)
+    gcp_useless = [instance['name'] for instance in gcp_instances if instance['cost'] == 0]
+    
+    # Results
+    print("\nAnalysis Results:")
+    if aws_total < gcp_total:
+        print("AWS is cheaper.")
+    elif gcp_total < aws_total:
+        print("GCP is cheaper.")
+    else:
+        print("Both AWS and GCP have the same total billing amount.")
+
+    # Advising on useless instances
+    if aws_useless:
+        print(f"Consider removing the following AWS instances with zero-dollar billing as they are useless: {', '.join(aws_useless)}")
+    if gcp_useless:
+        print(f"Consider removing the following GCP instances with zero-dollar billing as they are useless: {', '.join(gcp_useless)}")
+    
+    # Output links again for user reference
+    print("\nFor more details on your billing, please revisit the following links:")
+    print(f"AWS Billing Details: {aws_link}")
+    print(f"GCP Billing Details: {gcp_link}")
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+=============================================================================================================================================================================================
+
+Certainly! Here's a detailed breakdown of each part of the script you provided:
+
+
+
+
+def main():
+    print("Welcome to the Cloud Cost Comparison Tool!")
+
+- This function, `main`, is the entry point of your Python script.
+- It starts by printing a welcome message to the user, announcing the purpose of the script.
+
+
+
+
+
+    # Links to cloud billing pages
+    aws_link = "https://aws.amazon.com/billing/"
+    gcp_link = "https://console.cloud.google.com/billing/"
+
+- These lines define variables `aws_link` and `gcp_link` that store URLs to the billing information pages for AWS and GCP, respectively.
+
+
+
+
+
+
+
+
+
+
+
+    print("\nPlease visit the following links to access your billing information:")
+    print(f"AWS Billing: {aws_link}")
+    print(f"GCP Billing: {gcp_link}")
+
+- These lines print the billing page links to the user, directing them to where they can find detailed billing information.
+
+
+
+
+
+
+    # Input number of instances for AWS and GCP
+    num_aws = int(input("\nHow many AWS instances do you have? "))
+    num_gcp = int(input("How many GCP instances do you have? "))
+- The script prompts the user to enter the number of AWS and GCP instances they are managing. This information is used to determine how many times to ask for instance details.
+
+
+
+
+    aws_instances = []
+    gcp_instances = []
+
+- These lines initialize two empty lists, `aws_instances` and `gcp_instances`, which will store dictionaries containing details of each instance for AWS and GCP respectively.
+
+
+
+
+
+
+
+
+
+
+    # Collecting AWS instances data
+    for i in range(num_aws):
+        name = input(f"Enter the name for AWS instance {i+1}: ")
+        cost = float(input(f"Enter the bill amount for AWS instance {name} ($): "))
+        aws_instances.append({'name': name, 'cost': cost})
+
+- This loop iterates over the number of AWS instances the user has. For each instance, it collects the name and cost, creating a dictionary for each instance, which is then appended to the `aws_instances` list.
+
+
+
+
+
+
+
+
+
+    # Collecting GCP instances data
+    for i in range(num_gcp):
+        name = input(f"Enter the name for GCP instance {i+1}: ")
+        cost = float(input(f"Enter the bill amount for GCP instance {name} ($): "))
+        gcp_instances.append({'name': name, 'cost': cost})
+
+- Similarly, this loop collects and stores data for each GCP instance, appending each to the `gcp_instances` list.
+
+
+
+
+
+
+
+
+    # Process AWS instances
+    aws_total = sum(instance['cost'] for instance in aws_instances)
+    aws_useless = [instance['name'] for instance in aws_instances if instance['cost'] == 0]
+
+- This block calculates the total AWS billing amount and creates a list of names of AWS instances that have a zero-dollar billing, which are considered useless.
+
+
+
+
+
+
+
+
+
+    # Process GCP instances
+    gcp_total = sum(instance['cost'] for instance in gcp_instances)
+    gcp_useless = [instance['name'] for instance in gcp_instances if instance['cost'] == 0]
+- Similar operations are performed for GCP: computing the total cost and identifying zero-cost instances.
+
+
+
+
+
+
+
+
+
+
+    # Results
+    print("\nAnalysis Results:")
+    if aws_total < gcp_total:
+        print("AWS is cheaper.")
+    elif gcp_total < aws_total:
+        print("GCP is cheaper.")
+    else:
+        print("Both AWS and GCP have the same total billing amount.")
+
+- This section prints the comparative cost analysis results, indicating which cloud provider is cheaper or if they are the same in cost.
+
+
+
+
+
+
+    # Advising on useless instances
+    if aws_useless:
+        print(f"Consider removing the following AWS instances with zero-dollar billing as they are useless: {', '.join(aws_useless)}")
+    if gcp_useless:
+        print(f"Consider removing the following GCP instances with zero-dollar billing as they are useless: {', '.join(gcp_useless)}")
+
+- This part advises the user about which instances are not incurring any costs and might be considered for removal.
+
+
+
+
+
+
+
+
+    # Output links again for user reference
+    print("\nFor more details on your billing, please revisit the following links:")
+    print(f"AWS Billing Details: {aws_link}")
+    print(f"GCP Billing Details: {gcp_link}")
+
+- Finally, the script reprints the billing page links for further user reference.
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+- This is a common Python idiom. This is useful becauseif we decide to import this script as a module to another script.
